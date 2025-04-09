@@ -12,6 +12,7 @@ struct {
   struct proc proc[NPROC];
 } ptable;
 
+// static int forkCount = 0; // Added Part 2 of Lab 6
 static struct proc *initproc;
 
 int nextpid = 1;
@@ -215,6 +216,8 @@ fork(void)
   acquire(&ptable.lock);
 
   np->state = RUNNABLE;
+
+  // ++forkCount;
 
   release(&ptable.lock);
 
