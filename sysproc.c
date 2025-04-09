@@ -8,11 +8,14 @@
 #include "proc.h"
 
 static int forkCount = 0;
+// static struct spinlock forkCountLock;
 
 int
 sys_fork(void)
 {
+  // acquire(&forkCountLock);
   ++forkCount;
+  // release(&forkCountLock);
   return fork();
 }
 
@@ -109,11 +112,13 @@ sys_fkc(void)
   if(argint(0, &n) < 0)
     return -1;
 
-  // acquire(&tickslock);
+  // acquire(&forkCountLock);
   if(n == 0) {
     forkCount = 0;
+    // release(&forkCountLock);
     return 0;
   }
-  // release(&tickslock);
-  return forkCount;
+  int count = forkCount;
+  // release(&forkCountlock);
+  return count;
 }

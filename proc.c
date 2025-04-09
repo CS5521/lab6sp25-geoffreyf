@@ -14,6 +14,7 @@ struct {
 
 // static int forkCount = 0; // Added Part 2 of Lab 6
 static struct proc *initproc;
+extern int forkCount;
 
 int nextpid = 1;
 extern void forkret(void);
@@ -24,6 +25,7 @@ static void wakeup1(void *chan);
 void
 pinit(void)
 {
+  // initlock(&forkCountLock, "forkCount");
   initlock(&ptable.lock, "ptable");
 }
 
